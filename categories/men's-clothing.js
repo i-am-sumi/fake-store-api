@@ -1,17 +1,19 @@
-import "./style.css";
+//import "./style.css";
 import slugify from "slugify";
 
 document.querySelector("#app").innerHTML = `
   <div class='container'>
+  <div class='electonics'></div>
   </div>
 `;
 
 const createProducts = (products) => {
   let cat = "";
   const productsStr = products.map((product) => {
-    const { image, title, description, category } = product;
+    const { image, id, title, description, category } = product;
     cat = category;
     return `<div class="col">
+    <a href="/categories/men-details?id=${id}">
     <div class="card">
       <img src="${image}" class="card-img-top" alt="${image}" style='height: 320px;'>
       <div class="card-body">
@@ -21,7 +23,6 @@ const createProducts = (products) => {
     </div>
   </div>`;
   });
-
   const section = document.createElement("section");
   section.classList.add("p-4", "border", "mb-4");
 
@@ -35,17 +36,9 @@ const createProducts = (products) => {
 
   document.querySelector(".container").appendChild(section);
 };
-const categories = [
-  "jewelery",
-  "electronics",
-  "men's%20clothing",
-  "women's%20clothing",
-];
 
-categories.forEach((category) => {
-  fetch(`https://fakestoreapi.com/products/category/${category}?limit=4`)
-    .then((res) => res.json())
-    .then((value) => {
-      createProducts(value);
-    });
-});
+fetch(`https://fakestoreapi.com/products/category/men's clothing`)
+  .then((res) => res.json())
+  .then((value) => {
+    createProducts(value);
+  });
